@@ -69,6 +69,8 @@ typedef void (^SoundCompletionHandler)(BOOL didFinish);
 - (instancetype)initWithContentsOfFile:(NSString *)path;
 + (instancetype)soundWithContentsOfURL:(NSURL *)URL;
 - (instancetype)initWithContentsOfURL:(NSURL *)URL;
++ (instancetype)soundWithData:(NSData *)data referenceURL:(NSURL *)referenceURL;
+- (instancetype)initWithData:(NSData *)data referenceURL:(NSURL *)referenceURL;
 
 @property (nonatomic, readonly, copy) NSString *name;
 @property (nonatomic, readonly) NSURL *URL;

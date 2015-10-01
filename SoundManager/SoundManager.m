@@ -100,6 +100,11 @@ NSString *const SoundDidFinishPlayingNotification = @"SoundDidFinishPlayingNotif
     return [self initWithContentsOfURL:path? [NSURL fileURLWithPath:path]: nil];
 }
 
++ (instancetype)soundWithData:(NSData *)data referenceURL:(NSURL *)referenceURL
+{
+    return [[self alloc] initWithData:data referenceURL:referenceURL];
+}
+
 - (instancetype)initWithContentsOfURL:(NSURL *)URL
 {
     
@@ -121,6 +126,33 @@ NSString *const SoundDidFinishPlayingNotification = @"SoundDidFinishPlayingNotif
         _sound = [[AVAudioPlayer alloc] initWithContentsOfURL:URL error:NULL];
 #else
         _sound = [[NSSound alloc] initWithContentsOfURL:URL byReference:YES];
+#endif
+        self.volume = 1.0f;
+    }
+    return self;
+}
+
+- (instancetype)initWithData:(NSData *)data referenceURL:(NSURL *)referenceURL
+{
+    
+#ifdef DEBUG
+    
+    if (!data)
+    {
+        NSLog(@"Sound could not be created with empty data");
+    }
+    
+#endif
+    
+    if ((self = [super init]))
+    {
+        _URL = referenceURL;
+        _baseVolume = 1.0f;
+        
+#if SM_USE_AV_AUDIO_PLAYER
+        _sound = [[AVAudioPlayer alloc] initWithData:data error:NULL];
+#else
+        _sound = [[NSSound alloc] initWithData:data];
 #endif
         self.volume = 1.0f;
     }
